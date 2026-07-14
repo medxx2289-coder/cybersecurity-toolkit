@@ -1,0 +1,39 @@
+.tool-hero{padding:4rem 2rem 2rem;text-align:center}
+.blog-container{max-width:1000px;margin:0 auto;padding:0 2rem 4rem;display:flex;flex-direction:column;gap:2rem}
+.blog-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem;transition:all .3s;cursor:pointer;position:relative;overflow:hidden}
+.blog-card:hover{border-color:var(--border-glow);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.5),var(--glow)}
+.blog-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--secondary));opacity:0;transition:opacity .3s}
+.blog-card:hover::before{opacity:1}
+.blog-meta{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.blog-date{font-size:.8rem;color:var(--text-muted);font-family:var(--font-mono)}
+.blog-title{font-size:1.3rem;font-weight:700;color:var(--text-primary);margin-bottom:.75rem;line-height:1.4}
+.blog-excerpt{font-size:.9rem;color:var(--text-secondary);line-height:1.8;margin-bottom:1.25rem}
+.blog-read{color:var(--primary);font-size:.85rem;font-weight:600;display:inline-flex;align-items:center;gap:.4rem;transition:gap .3s}
+.blog-card:hover .blog-read{gap:.75rem}
+.blog-full{display:none;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.blog-full.open{display:block}
+.blog-full h3{color:var(--primary);font-size:1rem;margin:1.25rem 0 .6rem}
+.blog-full p,.blog-full li{font-size:.9rem;color:var(--text-secondary);line-height:1.9}
+.blog-full ul{padding-left:1.5rem;margin:.75rem 0}
+.blog-full li{margin-bottom:.4rem}
+.blog-full .tip{background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);border-radius:8px;padding:1rem;margin:1rem 0;font-size:.85rem;color:var(--success)}
+
+/* Blog Images */
+.blog-image-wrap {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--border);
+}
+.blog-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.blog-card:hover .blog-image {
+  transform: scale(1.05);
+}
+
