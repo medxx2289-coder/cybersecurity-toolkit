@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="description" content="Cybersecurity Tools Suite — Network Lab, Cryptography, Dictionary, Live Threat Feed, and Quizzes."/>
+  <title>Security Hub | CyberShield</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/toolkit.css"/>
+</head>
+<body>
+<canvas id="matrix-canvas"></canvas>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="index.html" class="nav-brand"><div class="logo-icon">🛡️</div><span>CyberShield</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" data-i18n="nav_home">🏠 Home</a></li>
+    <li><a href="password.html" data-i18n="nav_password">🔑 Password Gen</a></li>
+    <li><a href="hash.html" data-i18n="nav_hash">🔐 Hash Tool</a></li>
+    <li><a href="toolkit.html" class="active" data-i18n="nav_toolkit">🛠️ Security Hub</a></li>
+    <li><a href="blog.html" data-i18n="nav_blog">📖 Blog</a></li>
+    <li><a href="contact.html" data-i18n="nav_contact">📬 Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ar">AR</button>
+    </div>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html" data-i18n="nav_home">🏠 Home</a>
+  <a href="password.html" data-i18n="nav_password">🔑 Password Gen</a>
+  <a href="hash.html" data-i18n="nav_hash">🔐 Hash Tool</a>
+  <a href="toolkit.html" class="active" data-i18n="nav_toolkit">🛠️ Security Hub</a>
+  <a href="blog.html" data-i18n="nav_blog">📖 Blog</a>
+  <a href="contact.html" data-i18n="nav_contact">📬 Contact</a>
+</nav>
+
+<div class="page-wrapper">
+  <!-- Hero Section -->
+  <div class="tool-hero">
+    <div class="section-badge">🛠️ <span id="tk-badge">Security Hub</span></div>
+    <h1 class="section-title mt-2"><span id="tk-title1">Cybersecurity</span> <span style="color:var(--primary)" id="tk-title2">Workspace</span></h1>
+    <p class="section-desc" id="tk-desc">An interactive suite of network utilities, cryptography utilities, glossary terms, tests, and real-time security advisory feeds.</p>
+  </div>
+
+  <!-- Dashboard Workspace Container -->
+  <div class="toolkit-container">
+    <!-- Sidebar Tabs Menu -->
+    <aside class="toolkit-sidebar">
+      <ul class="toolkit-menu">
+        <li class="toolkit-tab active" onclick="switchTab('dict-panel', this)">
+          <span class="toolkit-tab-icon">📖</span>
+          <span id="tab-dict-lbl">Cyber Dictionary</span>
+        </li>
+        <li class="toolkit-tab" onclick="switchTab('network-panel', this)">
+          <span class="toolkit-tab-icon">🌐</span>
+          <span id="tab-net-lbl">Network Lab</span>
+        </li>
+        <li class="toolkit-tab" onclick="switchTab('crypto-panel', this)">
+          <span class="toolkit-tab-icon">🔐</span>
+          <span id="tab-crypto-lbl">Cryptography Lab</span>
+        </li>
+        <li class="toolkit-tab" onclick="switchTab('quiz-panel', this)">
+          <span class="toolkit-tab-icon">🧠</span>
+          <span id="tab-quiz-lbl">Interactive Quiz</span>
+        </li>
+        <li class="toolkit-tab" onclick="switchTab('library-panel', this)">
+          <span class="toolkit-tab-icon">📚</span>
+          <span id="tab-lib-lbl">Learning Library</span>
+        </li>
+        <li class="toolkit-tab" onclick="switchTab('news-panel', this)">
+          <span class="toolkit-tab-icon">📰</span>
+          <span id="tab-news-lbl">Security Alerts</span>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Content Workspace -->
+    <main class="toolkit-content">
+      
+      <!-- 1. Cyber Dictionary Panel -->
+      <section id="dict-panel" class="toolkit-panel active">
+        <div class="panel-header">
+          <h2 class="panel-title"><span id="dict-t1">Cyber</span> <span id="dict-t2">Dictionary</span></h2>
+          <p class="panel-desc" id="dict-sub">Interactive glossary of critical cybersecurity concepts and terminology.</p>
+        </div>
+        
+        <div class="dict-search-wrap">
+          <input type="text" class="dict-search" id="dict-search-input" placeholder="Search terms... / ابحث عن مصطلح..." oninput="filterDictionary()"/>
+        </div>
+
+        <div class="dict-grid" id="dict-grid">
+          <!-- Populated by JavaScript -->
+        </div>
+      </section>
+
+      <!-- 2. Network Lab Panel -->
+      <section id="network-panel" class="toolkit-panel">
+        <div class="panel-header">
+          <h2 class="panel-title"><span id="net-t1">Network</span> <span id="net-t2">Lab</span></h2>
+          <p class="panel-desc" id="net-sub">Analyze IP configurations, calculate subnets, and simulate network port audits.</p>
+        </div>
+
+        <div class="card mb-4">
+          <h3 class="mb-3" style="color:var(--primary)" id="net-ip-lbl">🌐 Public IP Detector</h3>
+          <div class="net-ip-badge">
+            <span id="net-ip-status">Detecting your IP address...</span>
+            <span class="net-ip-value" id="net-ip-display">—</span>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <h3 class="mb-2" style="color:var(--primary)" id="net-calc-lbl">🧮 IPv4 Subnet Calculator</h3>
+          <p class="section-desc mb-3" style="font-size:0.85rem" id="net-calc-desc">Enter an IP address and CIDR prefix to calculate subnet boundaries.</p>
+          <div class="subnet-form">
+            <input class="form-control" type="text" id="subnet-ip" placeholder="e.g. 192.168.1.1"/>
+            <select class="crypto-select" id="subnet-cidr">
+              <option value="30">/30 (4 IPs)</option>
+              <option value="29">/29 (8 IPs)</option>
+              <option value="28">/28 (16 IPs)</option>
+              <option value="27">/27 (32 IPs)</option>
+              <option value="26">/26 (64 IPs)</option>
+              <option value="25">/25 (128 IPs)</option>
+              <option value="24" selected>/24 (256 IPs)</option>
+              <option value="23">/23 (512 IPs)</option>
+              <option value="22">/22 (1024 IPs)</option>
+              <option value="16">/16 (65,536 IPs)</option>
+              <option value="8">/8 (16.7M IPs)</option>
+            </select>
+            <button class="btn btn-primary" onclick="calculateSubnet()" id="subnet-btn">Calculate</button>
+          </div>
+          <table class="subnet-result-table" id="subnet-table" style="display:none">
+            <tr>
+              <td class="subnet-result-lbl" id="sub-lbl-mask">Subnet Mask</td>
+              <td class="subnet-result-val" id="sub-val-mask">—</td>
+            </tr>
+            <tr>
+              <td class="subnet-result-lbl" id="sub-lbl-net">Network Address</td>
+              <td class="subnet-result-val" id="sub-val-net">—</td>
+            </tr>
+            <tr>
+              <td class="subnet-result-lbl" id="sub-lbl-first">First Usable IP</td>
+              <td class="subnet-result-val" id="sub-val-first">—</td>
+            </tr>
+            <tr>
+              <td class="subnet-result-lbl" id="sub-lbl-last">Last Usable IP</td>
+              <td class="subnet-result-val" id="sub-val-last">—</td>
+            </tr>
+            <tr>
+              <td class="subnet-result-lbl" id="sub-lbl-broad">Broadcast Address</td>
+              <td class="subnet-result-val" id="sub-val-broad">—</td>
+            </tr>
+            <tr>
+              <td class="subnet-result-lbl" id="sub-lbl-hosts">Total Usable Hosts</td>
+              <td class="subnet-result-val" id="sub-val-hosts">—</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card">
+          <h3 class="mb-2" style="color:var(--primary)" id="net-ports-lbl">📡 Port Scanner Simulator</h3>
+          <p class="section-desc mb-3" style="font-size:0.85rem" id="net-ports-desc">Simulate a local scan audit of common security service ports.</p>
+          <button class="btn btn-outline mb-3" onclick="simulatePortScan()" id="net-ports-btn">Initialize Security Scan</button>
+          <div class="port-grid" id="port-grid">
+            <!-- Populated by scan -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Cryptography Lab Panel -->
+      <section id="crypto-panel" class="toolkit-panel">
+        <div class="panel-header">
+          <h2 class="panel-title"><span id="cry-t1">Cryptography</span> <span id="cry-t2">Lab</span></h2>
+          <p class="panel-desc" id="cry-sub">Explore historical and modern data encoding and encryption methodologies.</p>
+        </div>
+
+        <div class="card">
+          <div class="crypto-grid">
+            <!-- INPUTS -->
+            <div>
+              <div class="crypto-control-group">
+                <label class="form-label" id="cry-lbl-input">Input Plaintext</label>
+                <textarea class="crypto-textarea" id="crypto-input" placeholder="Type text to encrypt/decrypt..." oninput="processCrypto()"></textarea>
+              </div>
+
+              <div class="crypto-control-group">
+                <label class="form-label" id="cry-lbl-algo">Algorithm</label>
+                <select class="crypto-select" id="crypto-algo" onchange="toggleCryptoControls(); processCrypto();">
+                  <option value="caesar" selected>Caesar Cipher (Shift)</option>
+                  <option value="rot13">ROT13</option>
+                  <option value="base64">Base64 Encoding</option>
+                </select>
+              </div>
+
+              <div class="crypto-control-group" id="caesar-shift-wrap">
+                <div class="flex-between mb-1">
+                  <label class="form-label" id="cry-lbl-shift">Shift Value</label>
+                  <span class="tag tag-green" id="caesar-shift-display">3</span>
+                </div>
+                <input type="range" id="caesar-shift-slider" min="1" max="25" value="3" oninput="document.getElementById('caesar-shift-display').textContent=this.value; processCrypto();"/>
+              </div>
+
+              <div class="crypto-control-group">
+                <label class="form-label" id="cry-lbl-mode">Mode</label>
+                <div class="flex gap-4">
+                  <label style="cursor:pointer;color:#fff"><input type="radio" name="crypto_mode" value="enc" checked onchange="processCrypto()"/> <span id="cry-opt-enc">Encrypt / Encode</span></label>
+                  <label style="cursor:pointer;color:#fff"><input type="radio" name="crypto_mode" value="dec" onchange="processCrypto()"/> <span id="cry-opt-dec">Decrypt / Decode</span></label>
+                </div>
+              </div>
+            </div>
+
+            <!-- OUTPUTS -->
+            <div style="display:flex;flex-direction:column;justify-content:space-between">
+              <div class="crypto-control-group" style="flex:1;display:flex;flex-direction:column">
+                <label class="form-label" id="cry-lbl-output">Result Output</label>
+                <textarea class="crypto-textarea" id="crypto-output" readonly placeholder="Result will appear here..." style="flex:1;height:200px;background:rgba(0,255,136,0.02);border-color:rgba(0,255,136,0.15)"></textarea>
+              </div>
+              <button class="btn btn-primary w-full mt-3" onclick="copyCryptoOutput()" id="cry-btn-copy">📋 Copy Ciphertext</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Interactive Quiz Panel -->
+      <section id="quiz-panel" class="toolkit-panel">
+        <div class="panel-header">
+          <h2 class="panel-title"><span id="qz-t1">Interactive</span> <span id="qz-t2">Quiz</span></h2>
+          <p class="panel-desc" id="qz-sub">Test your security intelligence and defensive knowledge skills.</p>
+        </div>
+
+        <div class="quiz-card" id="quiz-card">
+          <!-- Quiz states will load dynamically here -->
+        </div>
+      </section>
+
+      <!-- 5. Learning Library Panel -->
+      <section id="library-panel" class="toolkit-panel">
+        <div class="panel-header">
+          <h2 class="panel-title"><span id="lib-t1">Learning</span> <span id="lib-t2">Library</span></h2>
+          <p class="panel-desc" id="lib-sub">Curated free reference cybersecurity guides and learning booklets.</p>
+        </div>
+
+        <div class="library-grid" id="library-grid">
+          <!-- Populated by JavaScript -->
+        </div>
+      </section>
+
+      <!-- 6. Threat News Panel -->
+      <section id="news-panel" class="toolkit-panel">
+        <div class="panel-header">
+          <h2 class="panel-title"><span id="news-t1">Security</span> <span id="news-t2">Advisories</span></h2>
+          <p class="panel-desc" id="news-sub">Real-time alerts and advisory publications synchronized from global incident response feeds.</p>
+        </div>
+
+        <div class="news-pulse-row">
+          <div class="news-pulse-dot"></div>
+          <div class="news-pulse-text" id="news-live-lbl">LIVE THREAT FEED (CISA)</div>
+        </div>
+
+        <div class="news-grid" id="news-container">
+          <p style="color:var(--text-muted)" id="news-loading">Loading advisory bulletins...</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <div class="logo-icon">🛡️</div>
+          <span style="font-family:var(--font-title);font-size:1rem;color:var(--primary);letter-spacing:2px">CYBERSHIELD</span>
+        </div>
+        <p class="mt-2" data-i18n="footer_desc">Your personal cybersecurity toolkit — built with passion for digital security and privacy.</p>
+      </div>
+      <div>
+        <div class="footer-title" data-i18n="footer_tools">Tools</div>
+        <ul class="footer-links">
+          <li><a href="password.html">🔑 <span data-i18n="nav_password">Password Gen</span></a></li>
+          <li><a href="hash.html">🔐 <span data-i18n="nav_hash">Hash Tool</span></a></li>
+          <li><a href="toolkit.html">🛠️ <span data-i18n="nav_toolkit">Security Hub</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-title" data-i18n="footer_pages">Pages</div>
+        <ul class="footer-links">
+          <li><a href="index.html">🏠 <span data-i18n="nav_home">Home</span></a></li>
+          <li><a href="contact.html">📬 <span data-i18n="nav_contact">Contact</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer_copy">© 2026 CyberShield. All rights reserved.</span>
+      <span data-i18n="footer_made">Created by Mustafa Rashid Hamid</span>
+    </div>
+  </footer>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+/* -----------------------------------------
+   GLOBAL STATE & TRANSLATIONS
+   ----------------------------------------- */
+let currentLang = localStorage.getItem('lang') || 'en';
+
+const tkI18n = {
+  en: {
+    tk_badge: 'Security Hub',
+    tk_title1: 'Cybersecurity',
+    tk_title2: 'Workspace',
+    tk_desc: 'An interactive suite of network utilities, cryptography utilities, glossary terms, tests, and real-time security advisory feeds.',
+    tab_dict: 'Cyber Dictionary',
+    tab_net: 'Network Lab',
+    tab_crypto: 'Cryptography Lab',
+    tab_quiz: 'Interactive Quiz',
+    tab_lib: 'Learning Library',
+    tab_news: 'Security Alerts',
+    
+    dict_t1: 'Cyber',
+    dict_t2: 'Dictionary',
+    dict_sub: 'Interactive glossary of critical cybersecurity concepts and terminology.',
+    dict_search: 'Search terms...',
+    
+    net_t1: 'Network',
+    net_t2: 'Lab',
+    net_sub: 'Analyze IP configurations, calculate subnets, and simulate network port audits.',
+    net_ip_lbl: '🌐 Public IP Detector',
+    net_calc_lbl: '🧮 IPv4 Subnet Calculator',
+    net_calc_desc: 'Enter an IP address and CIDR prefix to calculate subnet boundaries.',
+    net_ports_lbl: '📡 Port Scanner Simulator',
+    net_ports_desc: 'Simulate a local scan audit of common security service ports.',
+    net_ports_btn: 'Initialize Security Scan',
+    subnet_btn: 'Calculate',
+    
+    cry_t1: 'Cryptography',
+    cry_t2: 'Lab',
+    cry_sub: 'Explore historical and modern data encoding and encryption methodologies.',
+    cry_lbl_input: 'Input Plaintext',
+    cry_lbl_algo: 'Algorithm',
+    cry_lbl_shift: 'Shift Value',
+    cry_lbl_mode: 'Mode',
+    cry_opt_enc: 'Encrypt / Encode',
+    cry_opt_dec: 'Decrypt / Decode',
+    cry_lbl_output: 'Result Output',
+    cry_btn_copy: '📋 Copy Ciphertext',
+    
+    qz_t1: 'Interactive',
+    qz_t2: 'Quiz',
+    qz_sub: 'Test your security intelligence and defensive knowledge skills.',
+    
+    lib_t1: 'Learning',
+    lib_t2: 'Library',
+    lib_sub: 'Curated free reference cybersecurity guides and learning booklets.',
+    
+    news_t1: 'Security',
+    news_t2: 'Advisories',
+    news_sub: 'Real-time alerts and advisory publications synchronized from global incident response feeds.',
+    news_live_lbl: 'LIVE THREAT FEED (CISA)',
+    news_loading: 'Loading advisory bulletins...',
+    
+    // IP display
+    ip_detecting: 'Detecting your IP address...',
+    ip_detected: 'Your Public IP Address:',
+    
+    // Subnet results
+    sub_mask: 'Subnet Mask',
+    sub_net: 'Network Address',
+    sub_first: 'First Usable IP',
+    sub_last: 'Last Usable IP',
+    sub_broad: 'Broadcast Address',
+    sub_hosts: 'Total Usable Hosts',
+    
+    // Quiz buttons
+    qz_btn_start: 'Start Security Quiz 🧠',
+    qz_btn_next: 'Next Question →',
+    qz_btn_restart: 'Retake Quiz 🔄',
+    qz_score_lbl: 'Your Score',
+    qz_excellent: 'Excellent! You have solid security awareness. 🛡️',
+    qz_good: 'Good job! Keep learning to stay secure. 🔒',
+    qz_weak: 'Weak score. Review our blog articles to boost your knowledge. ⚠️',
+    
+    // News fallback
+    news_fallback_lbl: 'LATEST ALERTS (OFFLINE FALLBACK)'
+  },
+  ar: {
+    tk_badge: 'مركز الأدوات',
+    tk_title1: 'مساحة العمل',
+    tk_title2: 'الأمنية',
+    tk_desc: 'مجموعة تفاعلية من أدوات الشبكات، والتشفير، وقاموس المصطلحات، والاختبارات التفاعلية، وخلاصة أخبار التهديدات المحدثة تلقائياً.',
+    tab_dict: 'قاموس المصطلحات',
+    tab_net: 'مختبر الشبكات',
+    tab_crypto: 'مختبر التشفير',
+    tab_quiz: 'اختبار تفاعلي',
+    tab_lib: 'مكتبة التعلم',
+    tab_news: 'التنبيهات الأمنية',
+    
+    dict_t1: 'قاموس',
+    dict_t2: 'المصطلحات',
+    dict_sub: 'قاموس تفاعلي للمفاهيم الأساسية للأمن السيبراني والمصطلحات الشائعة.',
+    dict_search: 'ابحث عن مصطلح...',
+    
+    net_t1: 'مختبر',
+    net_t2: 'الشبكات',
+    net_sub: 'حلل إعدادات بروتوكول الإنترنت IP، واحسب الشبكات الفرعية، وحاكي فحص منافذ الشبكة.',
+    net_ip_lbl: '🌐 كاشف عنوان IP العام',
+    net_calc_lbl: '🧮 حاسبة الشبكات الفرعية IPv4',
+    net_calc_desc: 'أدخل عنوان IP والـ CIDR لحساب حدود الشبكة الفرعية.',
+    net_ports_lbl: '📡 محاكي فحص المنافذ',
+    net_ports_desc: 'محاكاة فحص أمني للمنافذ والخدمات الشائعة في الشبكة.',
+    net_ports_btn: 'بدء الفحص الأمني',
+    subnet_btn: 'احسب الشبكة',
+    
+    cry_t1: 'مختبر',
+    cry_t2: 'التشفير',
+    cry_sub: 'استكشف طرق ترميز وتشفير البيانات التاريخية والحديثة.',
+    cry_lbl_input: 'النص الأصلي (Plaintext)',
+    cry_lbl_algo: 'خوارزمية التشفير',
+    cry_lbl_shift: 'قيمة الإزاحة',
+    cry_lbl_mode: 'الوضع',
+    cry_opt_enc: 'تشفير / ترميز',
+    cry_opt_dec: 'فك التشفير / فك الترميز',
+    cry_lbl_output: 'النتيجة (Output)',
+    cry_btn_copy: '📋 نسخ النص الناتج',
+    
+    qz_t1: 'الاختبار',
+    qz_t2: 'التفاعلي',
+    qz_sub: 'اختبر ذكاءك الأمني ومعلوماتك في الدفاع عن الشبكات والأنظمة.',
+    
+    lib_t1: 'مكتبة',
+    lib_t2: 'التعلم',
+    lib_sub: 'كتب ومستندات مرجعية مجانية منسقة لتعلم أساسيات الأمن السيبراني.',
+    
+    news_t1: 'التنبيهات',
+    news_t2: 'الأمنية',
+    news_sub: 'تنبيهات ومنشورات مباشرة من خلاصات الاستجابة للحوادث الأمنية العالمية.',
+    news_live_lbl: 'خلاصة التهديدات المباشرة (CISA)',
+    news_loading: 'جاري تحميل التنبيهات الأمنية...',
+    
+    // IP display
+    ip_detecting: 'جاري الكشف عن عنوان IP الخاص بك...',
+    ip_detected: 'عنوان IP العام الخاص بك:',
+    
+    // Subnet results
+    sub_mask: 'قناع الشبكة الفرعية',
+    sub_net: 'عنوان الشبكة',
+    sub_first: 'أول عنوان IP قابل للاستخدام',
+    sub_last: 'آخر عنوان IP قابل للاستخدام',
+    sub_broad: 'عنوان البث (Broadcast)',
+    sub_hosts: 'إجمالي الأجهزة المتاحة',
+    
+    // Quiz buttons
+    qz_btn_start: 'بدء الاختبار الأمني 🧠',
+    qz_btn_next: 'السؤال التالي ←',
+    qz_btn_restart: 'إعادة الاختبار 🔄',
+    qz_score_lbl: 'درجتك',
+    qz_excellent: 'ممتاز! لديك وعي أمني قوي جداً. 🛡️',
+    qz_good: 'عمل جيد! استمر في التعلم لتبقى آمناً. 🔒',
+    qz_weak: 'درجة ضعيفة. راجع مقالات المدونة لتعزيز معرفتك. ⚠️',
+    
+    // News fallback
+    news_fallback_lbl: 'أحدث التنبيهات (نسخة احتياطية)'
+  }
+};
+
+function applyToolkitLang(lang) {
+  currentLang = lang;
+  const t = tkI18n[lang] || tkI18n.en;
+  
+  // Update Hero & Titles
+  document.getElementById('tk-badge').textContent = t.tk_badge;
+  document.getElementById('tk-title1').textContent = t.tk_title1;
+  document.getElementById('tk-title2').textContent = t.tk_title2;
+  document.getElementById('tk-desc').textContent = t.tk_desc;
+  
+  // Update Tabs
+  document.getElementById('tab-dict-lbl').textContent = t.tab_dict;
+  document.getElementById('tab-net-lbl').textContent = t.tab_net;
+  document.getElementById('tab-crypto-lbl').textContent = t.tab_crypto;
+  document.getElementById('tab-quiz-lbl').textContent = t.tab_quiz;
+  document.getElementById('tab-lib-lbl').textContent = t.tab_lib;
+  document.getElementById('tab-news-lbl').textContent = t.tab_news;
+  
+  // Dictionary Header
+  document.getElementById('dict-t1').textContent = t.dict_t1;
+  document.getElementById('dict-t2').textContent = t.dict_t2;
+  document.getElementById('dict-sub').textContent = t.dict_sub;
+  document.getElementById('dict-search-input').placeholder = t.dict_search;
+  
+  // Network Header
+  document.getElementById('net-t1').textContent = t.net_t1;
+  document.getElementById('net-t2').textContent = t.net_t2;
+  document.getElementById('net-sub').textContent = t.net_sub;
+  document.getElementById('net-ip-lbl').textContent = t.net_ip_lbl;
+  document.getElementById('net-calc-lbl').textContent = t.net_calc_lbl;
+  document.getElementById('net-calc-desc').textContent = t.net_calc_desc;
+  document.getElementById('subnet-btn').textContent = t.subnet_btn;
+  document.getElementById('net-ports-lbl').textContent = t.net_ports_lbl;
+  document.getElementById('net-ports-desc').textContent = t.net_ports_desc;
+  document.getElementById('net-ports-btn').textContent = t.net_ports_btn;
+  
+  // Subnet labels
+  document.getElementById('sub-lbl-mask').textContent = t.sub_mask;
+  document.getElementById('sub-lbl-net').textContent = t.sub_net;
+  document.getElementById('sub-lbl-first').textContent = t.sub_first;
+  document.getElementById('sub-lbl-last').textContent = t.sub_last;
+  document.getElementById('sub-lbl-broad').textContent = t.sub_broad;
+  document.getElementById('sub-lbl-hosts').textContent = t.sub_hosts;
+  
+  // Crypto Header
+  document.getElementById('cry-t1').textContent = t.cry_t1;
+  document.getElementById('cry-t2').textContent = t.cry_t2;
+  document.getElementById('cry-sub').textContent = t.cry_sub;
+  document.getElementById('cry-lbl-input').textContent = t.cry_lbl_input;
+  document.getElementById('cry-lbl-algo').textContent = t.cry_lbl_algo;
+  document.getElementById('cry-lbl-shift').textContent = t.cry_lbl_shift;
+  document.getElementById('cry-lbl-mode').textContent = t.cry_lbl_mode;
+  document.getElementById('cry-opt-enc').textContent = t.cry_opt_enc;
+  document.getElementById('cry-opt-dec').textContent = t.cry_opt_dec;
+  document.getElementById('cry-lbl-output').textContent = t.cry_lbl_output;
+  document.getElementById('cry-btn-copy').textContent = t.cry_btn_copy;
+  
+  // Quiz Header
+  document.getElementById('qz-t1').textContent = t.qz_t1;
+  document.getElementById('qz-t2').textContent = t.qz_t2;
+  document.getElementById('qz-sub').textContent = t.qz_sub;
+  
+  // Library Header
+  document.getElementById('lib-t1').textContent = t.lib_t1;
+  document.getElementById('lib-t2').textContent = t.lib_t2;
+  document.getElementById('lib-sub').textContent = t.lib_sub;
+  
+  // News Header
+  document.getElementById('news-t1').textContent = t.news_t1;
+  document.getElementById('news-t2').textContent = t.news_t2;
+  document.getElementById('news-sub').textContent = t.news_sub;
+  document.getElementById('news-live-lbl').textContent = t.news_live_lbl;
+
+  // Refresh lists
+  renderDictionary();
+  renderLibrary();
+  renderQuizState();
+  updateIPDisplay();
+}
+
+document.addEventListener('langChange', e => applyToolkitLang(e.detail.lang));
+
+
+/* -----------------------------------------
+   TAB SWITCHER LOGIC
+   ----------------------------------------- */
+function switchTab(panelId, tabEl) {
+  // Hide all panels
+  document.querySelectorAll('.toolkit-panel').forEach(panel => {
+    panel.classList.remove('active');
+  });
+  // Deactivate all tabs
+  document.querySelectorAll('.toolkit-tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  
+  // Activate selected panel & tab
+  document.getElementById(panelId).classList.add('active');
+  tabEl.classList.add('active');
+  
+  // Specific panel triggers
+  if (panelId === 'network-panel') {
+    fetchUserIP();
+  }
+}
+
+
+/* -----------------------------------------
+   1. CYBER DICTIONARY MODULE
+   ----------------------------------------- */
+const dictionaryData = [
+  {
+    termEn: 'Firewall',
+    termAr: 'جدار الحماية',
+    defEn: 'A security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules.',
+    defAr: 'نظام أمان يراقب ويتحكم في حركة مرور الشبكة الصادرة والواردة بناءً على قواعد أمان محددة مسبقًا.'
+  },
+  {
+    termEn: 'Malware',
+    termAr: 'البرمجيات الخبيثة',
+    defEn: 'Any software intentionally designed to cause disruption, damage, or unauthorized access to a computer, server, client, or network.',
+    defAr: 'أي برمجيات مصممة عمداً لإحداث خلل أو تلف أو وصول غير مصرح به لجهاز الكمبيوتر أو الخادم أو الشبكة.'
+  },
+  {
+    termEn: 'Phishing',
+    termAr: 'التصيد الاحتيالي',
+    defEn: 'A method of gathering personal information or credentials by masquerading as a trustworthy entity in electronic communications.',
+    defAr: 'طريقة لجمع المعلومات الشخصية أو بيانات الاعتماد عن طريق التظاهر بكونك جهة موثوقة في الاتصالات الإلكترونية.'
+  },
+  {
+    termEn: 'Ransomware',
+    termAr: 'برمجيات الفدية',
+    defEn: 'A type of malware that threatens to publish the victim\'s personal data or perpetually block access to it unless a ransom is paid.',
+    defAr: 'نوع من البرمجيات الخبيثة يهدد بنشر بيانات الضحية أو منع الوصول إليها بشكل دائم ما لم يتم دفع فدية.'
+  },
+  {
+    termEn: 'Cryptography',
+    termAr: 'علم التشفير',
+    defEn: 'The practice and study of techniques for secure communication in the presence of adversarial behavior.',
+    defAr: 'ممارسة ودراسة تقنيات الاتصال الآمن في وجود سلوك معادي أو مخترقين.'
+  },
+  {
+    termEn: 'Multi-Factor Authentication (MFA)',
+    termAr: 'المصادقة ثنائية العوامل',
+    defEn: 'An electronic authentication method in which a user is granted access to a website or application only after presenting two or more pieces of evidence.',
+    defAr: 'طريقة مصادقة إلكترونية يُمنح فيها المستخدم حق الوصول للموقع فقط بعد تقديم دليلين أو أكثر لإثبات الهوية.'
+  },
+  {
+    termEn: 'Zero-Day Vulnerability',
+    termAr: 'ثغرة يوم الصفر',
+    defEn: 'A software security flaw that is known to the software vendor but for which no patch or fix has yet been released.',
+    defAr: 'ثغرة أمنية في البرمجيات تكون معروفة للمطور ولكن لم يتم إصدار أي رقعة برمجية (Patch) لإصلاحها بعد.'
+  },
+  {
+    termEn: 'Distributed Denial of Service (DDoS)',
+    termAr: 'هجمات حجب الخدمة الموزعة',
+    defEn: 'A cyberattack in which multiple compromised computer systems attack a target, such as a website or server, causing a denial of service.',
+    defAr: 'هجوم سيبراني تهاجم فيه أنظمة كمبيوتر متعددة مخترقة هدفًا واحدًا، مثل خادم أو موقع، مما يتسبب في توقفه عن الخدمة.'
+  },
+  {
+    termEn: 'SQL Injection (SQLi)',
+    termAr: 'حقن قواعد البيانات',
+    defEn: 'A code injection technique used to attack data-driven applications by inserting malicious SQL statements into entry fields for execution.',
+    defAr: 'تقنية حقن للأكواد تُستخدم لمهاجمة التطبيقات من خلال إدخال تعليمات SQL خبيثة في حقول الإدخال لتنفيذها.'
+  },
+  {
+    termEn: 'Symmetric Encryption',
+    termAr: 'التشفير المتماثل',
+    defEn: 'An encryption method where the same key is used for both encrypting the plaintext and decrypting the ciphertext.',
+    defAr: 'طريقة تشفير يتم فيها استخدام نفس المفتاح لتشفير النص الأصلي وفك تشفير النص المشفر.'
+  }
+];
+
+function renderDictionary(filter = '') {
+  const container = document.getElementById('dict-grid');
+  container.innerHTML = '';
+  
+  const query = filter.toLowerCase().trim();
+  const filtered = dictionaryData.filter(item => 
+    item.termEn.toLowerCase().includes(query) || 
+    item.termAr.includes(query) || 
+    item.defEn.toLowerCase().includes(query) || 
+    item.defAr.includes(query)
+  );
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">
+      ${currentLang === 'ar' ? 'لا توجد نتائج تطابق بحثك.' : 'No terms match your search.'}
+    </p>`;
+    return;
+  }
+
+  filtered.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'dict-card';
+    card.innerHTML = `
+      <div class="dict-term-row">
+        <span class="dict-term-en">${item.termEn}</span>
+        <span class="dict-term-ar">${item.termAr}</span>
+      </div>
+      <p class="dict-def">${currentLang === 'ar' ? item.defAr : item.defEn}</p>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function filterDictionary() {
+  const query = document.getElementById('dict-search-input').value;
+  renderDictionary(query);
+}
+
+
+/* -----------------------------------------
+   2. NETWORK LAB MODULE
+   ----------------------------------------- */
+let userIPCache = '';
+
+function updateIPDisplay() {
+  const display = document.getElementById('net-ip-display');
+  const status = document.getElementById('net-ip-status');
+  const t = tkI18n[currentLang] || tkI18n.en;
+  
+  if (userIPCache) {
+    status.textContent = t.ip_detected;
+    display.textContent = userIPCache;
+  } else {
+    status.textContent = t.ip_detecting;
+    display.textContent = '—';
+  }
+}
+
+function fetchUserIP() {
+  if (userIPCache) return;
+  fetch('https://api.ipify.org?format=json')
+    .then(res => res.json())
+    .then(data => {
+      userIPCache = data.ip;
+      updateIPDisplay();
+    })
+    .catch(() => {
+      userIPCache = '192.168.1.45 (Local Simulated)';
+      updateIPDisplay();
+    });
+}
+
+// Subnet Calculator Logic
+function calculateSubnet() {
+  const ipStr = document.getElementById('subnet-ip').value.trim();
+  const cidrVal = parseInt(document.getElementById('subnet-cidr').value);
+  
+  // Validate IP format
+  const ipParts = ipStr.split('.').map(Number);
+  if (ipParts.length !== 4 || ipParts.some(p => isNaN(p) || p < 0 || p > 255)) {
+    alert(currentLang === 'ar' ? 'الرجاء إدخال عنوان IP صالح (مثال: 192.168.1.1)' : 'Please enter a valid IP address (e.g., 192.168.1.1)');
+    return;
+  }
+
+  // Calculate Subnet Mask
+  let maskBinary = '';
+  for (let i = 0; i < 32; i++) {
+    maskBinary += i < cidrVal ? '1' : '0';
+  }
+  const maskParts = [
+    parseInt(maskBinary.substring(0, 8), 2),
+    parseInt(maskBinary.substring(8, 16), 2),
+    parseInt(maskBinary.substring(16, 24), 2),
+    parseInt(maskBinary.substring(24, 32), 2)
+  ];
+  const subnetMask = maskParts.join('.');
+
+  // Calculate Network Address
+  const netParts = ipParts.map((part, i) => part & maskParts[i]);
+  const netAddress = netParts.join('.');
+
+  // Calculate Broadcast Address
+  const wildParts = maskParts.map(part => 255 - part);
+  const broadParts = netParts.map((part, i) => part | wildParts[i]);
+  const broadAddress = broadParts.join('.');
+
+  // First & Last Usable Hosts
+  const firstParts = [...netParts];
+  firstParts[3] += 1;
+  const firstIP = firstParts.join('.');
+
+  const lastParts = [...broadParts];
+  lastParts[3] -= 1;
+  const lastIP = cidrVal >= 31 ? 'N/A' : lastParts.join('.');
+
+  // Total Usable Hosts
+  const totalHosts = cidrVal >= 31 ? 0 : Math.pow(2, 32 - cidrVal) - 2;
+
+  // Render Table
+  document.getElementById('sub-val-mask').textContent = subnetMask;
+  document.getElementById('sub-val-net').textContent = netAddress;
+  document.getElementById('sub-val-first').textContent = firstIP;
+  document.getElementById('sub-val-last').textContent = lastIP;
+  document.getElementById('sub-val-broad').textContent = broadAddress;
+  document.getElementById('sub-val-hosts').textContent = totalHosts.toLocaleString();
+  
+  document.getElementById('subnet-table').style.display = 'table';
+}
+
+// Common ports scan simulation
+const portAuditList = [
+  { port: 21, svc: 'FTP', status: 'closed', arSvc: 'نقل الملفات' },
+  { port: 22, svc: 'SSH', status: 'open', arSvc: 'الاتصال الآمن' },
+  { port: 23, svc: 'Telnet', status: 'closed', arSvc: 'اتصال غير آمن' },
+  { port: 25, svc: 'SMTP', status: 'filtered', arSvc: 'نقل البريد' },
+  { port: 80, svc: 'HTTP', status: 'open', arSvc: 'موقع غير مشفر' },
+  { port: 110, svc: 'POP3', status: 'closed', arSvc: 'بريد POP3' },
+  { port: 443, svc: 'HTTPS', status: 'open', arSvc: 'موقع آمن مشفر' },
+  { port: 3389, svc: 'RDP', status: 'filtered', arSvc: 'التحكم عن بعد' }
+];
+
+function simulatePortScan() {
+  const btn = document.getElementById('net-ports-btn');
+  const grid = document.getElementById('port-grid');
+  
+  btn.disabled = true;
+  btn.textContent = currentLang === 'ar' ? 'جاري الفحص الأمني للشبكة...' : 'Scanning network services...';
+  grid.innerHTML = '';
+  
+  portAuditList.forEach((p, index) => {
+    setTimeout(() => {
+      const card = document.createElement('div');
+      card.className = 'port-card';
+      
+      const badgeClass = p.status === 'open' ? 'port-status-open' : p.status === 'filtered' ? 'port-status-filter' : 'port-status-closed';
+      const badgeText = p.status.toUpperCase();
+      const localizedSvc = currentLang === 'ar' ? p.arSvc : p.svc;
+      
+      card.innerHTML = `
+        <div class="port-number">PORT ${p.port}</div>
+        <div class="port-service">${localizedSvc}</div>
+        <span class="port-status-badge ${badgeClass}">${badgeText}</span>
+      `;
+      grid.appendChild(card);
+      
+      if (index === portAuditList.length - 1) {
+        btn.disabled = false;
+        btn.textContent = tkI18n[currentLang].net_ports_btn;
+      }
+    }, (index + 1) * 350);
+  });
+}
+
+
+/* -----------------------------------------
+   3. CRYPTOGRAPHY LAB MODULE
+   ----------------------------------------- */
+function toggleCryptoControls() {
+  const algo = document.getElementById('crypto-algo').value;
+  const shiftWrap = document.getElementById('caesar-shift-wrap');
+  if (algo === 'caesar') {
+    shiftWrap.style.display = 'block';
+  } else {
+    shiftWrap.style.display = 'none';
+  }
+}
+
+function processCrypto() {
+  const plaintext = document.getElementById('crypto-input').value;
+  const algo = document.getElementById('crypto-algo').value;
+  const mode = document.querySelector('input[name="crypto_mode"]:checked').value;
+  const shift = parseInt(document.getElementById('caesar-shift-slider').value);
+  let result = '';
+
+  if (!plaintext) {
+    document.getElementById('crypto-output').value = '';
+    return;
+  }
+
+  if (algo === 'caesar') {
+    result = caesarCipher(plaintext, mode === 'enc' ? shift : 26 - shift);
+  } else if (algo === 'rot13') {
+    result = caesarCipher(plaintext, 13);
+  } else if (algo === 'base64') {
+    try {
+      if (mode === 'enc') {
+        result = btoa(unescape(encodeURIComponent(plaintext)));
+      } else {
+        result = decodeURIComponent(escape(atob(plaintext)));
+      }
+    } catch(e) {
+      result = currentLang === 'ar' ? 'خطأ في فك ترميز Base64: نص غير صالح.' : 'Error: Invalid Base64 encoded string.';
+    }
+  }
+
+  document.getElementById('crypto-output').value = result;
+}
+
+function caesarCipher(str, shift) {
+  return str.split('').map(c => {
+    const code = c.charCodeAt(0);
+    if (code >= 65 && code <= 90) {
+      return String.fromCharCode(((code - 65 + shift) % 26) + 65);
+    } else if (code >= 97 && code <= 122) {
+      return String.fromCharCode(((code - 97 + shift) % 26) + 97);
+    }
+    return c;
+  }).join('');
+}
+
+function copyCryptoOutput() {
+  const text = document.getElementById('crypto-output').value;
+  if (!text) return;
+  
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('cry-btn-copy');
+    const originalText = btn.textContent;
+    btn.textContent = currentLang === 'ar' ? '✅ تم النسخ!' : '✅ Copied!';
+    setTimeout(() => { btn.textContent = originalText; }, 2000);
+  });
+}
+
+
+/* -----------------------------------------
+   4. INTERACTIVE QUIZ MODULE
+   ----------------------------------------- */
+const quizQuestions = [
+  {
+    qEn: 'Which of the following is considered the most secure password configuration?',
+    qAr: 'أي من التكوينات التالية تعتبر كلمة مرور أكثر أماناً؟',
+    optsEn: [
+      'P@ssw0rd123 (10 chars)',
+      'correct-horse-battery-staple (28 chars, passphrase)',
+      'Mustafa1998 (11 chars)',
+      'Admin@2026 (10 chars)'
+    ],
+    optsAr: [
+      'P@ssw0rd123 (10 خانات)',
+      'correct-horse-battery-staple (28 خانة، عبارة مرور)',
+      'Mustafa1998 (11 خانة)',
+      'Admin@2026 (10 خانات)'
+    ],
+    correct: 1,
+    expEn: 'Length is the single most critical factor in password complexity. Passphrases are long, easy to remember, and extremely difficult for computers to crack.',
+    expAr: 'الطول هو العامل الأهم في تعقيد كلمة المرور. عبارات المرور (Passphrases) طويلة وسهلة الحفظ وصعبة الاختراق للغاية.'
+  },
+  {
+    qEn: 'What is the primary function of two-factor authentication (2FA)?',
+    qAr: 'ما هي الوظيفة الأساسية للمصادقة الثنائية (2FA)؟',
+    optsEn: [
+      'To encrypt your stored data',
+      'To increase internet connection speeds',
+      'To require a secondary verification factor beside your password',
+      'To block malicious websites'
+    ],
+    optsAr: [
+      'تشفير بياناتك المخزنة',
+      'زيادة سرعة اتصال الإنترنت',
+      'طلب رمز تحقق إضافي بجانب كلمة المرور',
+      'حجب المواقع الضارة'
+    ],
+    correct: 2,
+    expEn: '2FA adds a layer of protection. Even if an attacker steals your password, they cannot access your account without the second factor (e.g. mobile token).',
+    expAr: 'تضيف المصادقة الثنائية طبقة حماية. حتى لو سرق المخترق كلمة مرورك، لن يستطيع دخول حسابك بدون رمز التحقق الثاني.'
+  },
+  {
+    qEn: 'An email claiming to be from your bank asks you to immediately click a link and verify your login credentials. What is this?',
+    qAr: 'رسالة بريد إلكتروني تدعي أنها من بنكك وتطلب منك النقر فوراً على رابط لتأكيد بيانات الدخول. ما هذا؟',
+    optsEn: [
+      'Ransomware threat payload',
+      'SQL injection attempt',
+      'Social engineering via Phishing',
+      'Standard software update advisory'
+    ],
+    optsAr: [
+      'برمجية فدية خبيثة',
+      'محاولة حقن قواعد البيانات SQL',
+      'هندسة اجتماعية عبر التصيد الاحتيالي',
+      'تنبيه روتيني لتحديث البرنامج'
+    ],
+    correct: 2,
+    expEn: 'This is phishing. Banks will never ask you to verify credentials or sensitive details through a direct link in an email.',
+    expAr: 'هذا هو التصيد الاحتيالي. لن تطلب منك البنوك أبداً التحقق من بياناتك الشخصية عبر رابط بريد إلكتروني مباشر.'
+  },
+  {
+    qEn: 'Which port is used to serve secure web pages over HTTP with TLS encryption?',
+    qAr: 'أي منفذ شبكة يُستخدم لخدمة صفحات الويب الآمنة المشفرة (HTTPS)؟',
+    optsEn: [
+      'Port 80',
+      'Port 22',
+      'Port 21',
+      'Port 443'
+    ],
+    optsAr: [
+      'المنفذ 80',
+      'المنفذ 22',
+      'المنفذ 21',
+      'المنفذ 443'
+    ],
+    correct: 3,
+    expEn: 'Port 443 is standard for HTTPS. Port 80 is used for unencrypted HTTP web traffic.',
+    expAr: 'المنفذ 443 هو المنفذ القياسي لبروتوكول HTTPS. المنفذ 80 يُستخدم لـ HTTP غير المشفر.'
+  },
+  {
+    qEn: 'Which cryptographic algorithm is currently considered mathematically broken and insecure for sensitive tasks?',
+    qAr: 'أي خوارزمية تشفير تعتبر حالياً مكسورة رياضياً وغير آمنة للبيانات الحساسة؟',
+    optsEn: [
+      'SHA-256',
+      'AES-256',
+      'MD5',
+      'SHA-512'
+    ],
+    optsAr: [
+      'SHA-256',
+      'AES-256',
+      'MD5',
+      'SHA-512'
+    ],
+    correct: 2,
+    expEn: 'MD5 is broken due to cryptographic collision vulnerabilities. Standard SHA-256 and AES-256 remain highly secure.',
+    expAr: 'خوارزمية MD5 مكسورة بسبب ثغرات التصادم. بينما لا تزال SHA-256 و AES-256 آمنة تماماً.'
+  }
+];
+
+let quizIndex = -1; // -1 means start screen
+let quizScore = 0;
+let answerSelected = false;
+
+function renderQuizState() {
+  const card = document.getElementById('quiz-card');
+  const t = tkI18n[currentLang] || tkI18n.en;
+  
+  if (quizIndex === -1) {
+    // Start Screen
+    card.innerHTML = `
+      <div style="text-align:center">
+        <div style="font-size:3.5rem;margin-bottom:1rem">🧠</div>
+        <h3 class="mb-3" style="color:var(--primary);font-size:1.5rem">${currentLang==='ar'?'اختبار حماية الوعي الأمني':'Security Awareness Quiz'}</h3>
+        <p class="section-desc mb-4" style="max-width:500px;margin:0 auto">
+          ${currentLang==='ar'?'اختبر مدى معرفتك بمفاهيم الأمن السيبراني وحماية الشبكات والهندسة الاجتماعية وحماية كلمات المرور.':'Test your cybersecurity intelligence, network security basics, and social engineering awareness.'}
+        </p>
+        <button class="btn btn-primary" onclick="startQuiz()">${t.qz_btn_start}</button>
+      </div>
+    `;
+    return;
+  }
+  
+  if (quizIndex >= quizQuestions.length) {
+    // Score Screen
+    const pct = Math.round((quizScore / quizQuestions.length) * 100);
+    let feedbackMsg = t.qz_weak;
+    if (pct >= 80) feedbackMsg = t.qz_excellent;
+    else if (pct >= 60) feedbackMsg = t.qz_good;
+    
+    card.innerHTML = `
+      <div class="quiz-results">
+        <div class="quiz-score-circle">
+          <span class="quiz-score-num">${quizScore}/${quizQuestions.length}</span>
+          <span class="quiz-score-lbl">${t.qz_score_lbl}</span>
+        </div>
+        <h3 class="mb-2" style="color:var(--primary);font-size:1.5rem">${pct}% Score</h3>
+        <p class="section-desc mb-4" style="max-width:500px;margin:0 auto">${feedbackMsg}</p>
+        <button class="btn btn-primary" onclick="restartQuiz()">${t.qz_btn_restart}</button>
+      </div>
+    `;
+    return;
+  }
+  
+  // Question Card
+  const q = quizQuestions[quizIndex];
+  const progressPct = Math.round((quizIndex / quizQuestions.length) * 100);
+  const qText = currentLang === 'ar' ? q.qAr : q.qEn;
+  const opts = currentLang === 'ar' ? q.optsAr : q.optsEn;
+  
+  let optionsHtml = opts.map((opt, i) => `
+    <button class="quiz-option" onclick="selectQuizOption(${i}, this)">${opt}</button>
+  `).join('');
+  
+  card.innerHTML = `
+    <div class="quiz-progress-bar">
+      <div class="quiz-progress-fill" style="width: ${progressPct}%"></div>
+    </div>
+    <div class="quiz-question">
+      <strong>Q${quizIndex + 1}:</strong> ${qText}
+    </div>
+    <div class="quiz-options">
+      ${optionsHtml}
+    </div>
+    <div class="quiz-feedback" id="quiz-feedback-box">
+      <strong>${currentLang === 'ar' ? '🔍 التفسير المرجعي:' : '🔍 Technical Explanation:'}</strong>
+      <p class="mt-1" id="quiz-explanation-text"></p>
+    </div>
+    <button class="btn btn-primary mt-4" id="quiz-next-btn" style="display:none" onclick="nextQuizQuestion()">${t.qz_btn_next}</button>
+  `;
+  answerSelected = false;
+}
+
+function startQuiz() {
+  quizIndex = 0;
+  quizScore = 0;
+  renderQuizState();
+}
+
+function restartQuiz() {
+  quizIndex = -1;
+  quizScore = 0;
+  renderQuizState();
+}
+
+function selectQuizOption(index, btnEl) {
+  if (answerSelected) return;
+  answerSelected = true;
+  
+  const q = quizQuestions[quizIndex];
+  const feedbackBox = document.getElementById('quiz-feedback-box');
+  const expText = document.getElementById('quiz-explanation-text');
+  const nextBtn = document.getElementById('quiz-next-btn');
+  
+  // Highlight options
+  const options = document.querySelectorAll('.quiz-option');
+  
+  if (index === q.correct) {
+    btnEl.classList.add('correct');
+    quizScore++;
+    feedbackBox.className = 'quiz-feedback show-correct';
+  } else {
+    btnEl.classList.add('incorrect');
+    options[q.correct].classList.add('correct');
+    feedbackBox.className = 'quiz-feedback show-incorrect';
+  }
+  
+  expText.textContent = currentLang === 'ar' ? q.expAr : q.expEn;
+  nextBtn.style.display = 'block';
+}
+
+function nextQuizQuestion() {
+  quizIndex++;
+  renderQuizState();
+}
+
+
+/* -----------------------------------------
+   5. LEARNING LIBRARY MODULE
+   ----------------------------------------- */
+const libraryData = [
+  {
+    titleEn: 'OWASP Top 10 Reference Guide',
+    titleAr: 'دليل ثغرات ويب OWASP Top 10',
+    descEn: 'The official reference report on the most critical security vulnerabilities affecting web applications globally.',
+    descAr: 'التقرير المرجعي الرسمي لأخطر الثغرات الأمنية التي تصيب تطبيقات الويب عالمياً.',
+    tagEn: 'Web Security',
+    tagAr: 'أمن الويب',
+    size: '1.4 MB',
+    link: 'https://owasp.org/www-project-top-ten/'
+  },
+  {
+    titleEn: 'NIST Cybersecurity Framework (CSF)',
+    titleAr: 'إطار الأمن السيبراني NIST CSF',
+    descEn: 'Core standards framework for identifying, protecting, detecting, responding, and recovering from cybersecurity incidents.',
+    descAr: 'إطار العمل القياسي لتحديد وحماية وتأمين واكتشاف الحوادث السيبرانية والاستجابة لها والتعافي منها.',
+    tagEn: 'Standards',
+    tagAr: 'معايير قياسية',
+    size: '2.8 MB',
+    link: 'https://www.nist.gov/cyberframework'
+  },
+  {
+    titleEn: 'CISA Linux Hardening Handbook',
+    titleAr: 'دليل تحصين خوادم Linux',
+    descEn: 'A checklist of actions to harden Linux server systems, secure service endpoints, and disable legacy services.',
+    descAr: 'قائمة بالخطوات العملية لتأمين أنظمة تشغيل خوادم Linux وإغلاق الخدمات غير الآمنة.',
+    tagEn: 'SysAdmin',
+    tagAr: 'إدارة الأنظمة',
+    size: '980 KB',
+    link: 'https://www.cisa.gov/resources-tools/publications'
+  },
+  {
+    titleEn: 'Practical Cryptography Handbook',
+    titleAr: 'دليل التشفير العملي للمطورين',
+    descEn: 'Introduction to cryptographic keys, public-key standards, hashing algorithms, and code signatures.',
+    descAr: 'مقدمة في مفاتيح التشفير، بروتوكولات المفاتيح العامة، خوارزميات الهاش والتوقيع الرقمي للمطورين.',
+    tagEn: 'Crypto',
+    tagAr: 'التشفير',
+    size: '3.1 MB',
+    link: 'https://github.com/practical-cryptography/practical-cryptography-book'
+  }
+];
+
+function renderLibrary() {
+  const grid = document.getElementById('library-grid');
+  grid.innerHTML = '';
+  
+  libraryData.forEach(book => {
+    const card = document.createElement('div');
+    card.className = 'book-card';
+    
+    const title = currentLang === 'ar' ? book.titleAr : book.titleEn;
+    const desc = currentLang === 'ar' ? book.descAr : book.descEn;
+    const tag = currentLang === 'ar' ? book.tagAr : book.tagEn;
+    
+    card.innerHTML = `
+      <div class="book-cover-placeholder">
+        📚
+        <span class="book-tag">${tag}</span>
+      </div>
+      <div class="book-body">
+        <h4 class="book-title">${title}</h4>
+        <p class="book-desc">${desc}</p>
+        <div class="book-meta">
+          <span>💾 ${book.size}</span>
+          <a href="${book.link}" target="_blank" class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">
+            ${currentLang === 'ar' ? 'تحميل مجاني 📥' : 'Free Download 📥'}
+          </a>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+
+/* -----------------------------------------
+   6. NEWS FEED MODULE (REAL-TIME RSS FETCH)
+   ----------------------------------------- */
+const fallbackNews = {
+  en: [
+    {
+      title: 'CISA Releases Cybersecurity Best Practices for Smart Cities',
+      date: '2026-07-14',
+      excerpt: 'CISA published advice urging integration of zero-trust architecture in regional smart-grid control infrastructure systems.',
+      url: 'https://www.cisa.gov/news-events/cybersecurity-advisories'
+    },
+    {
+      title: 'Active Phishing Campaign Targets Enterprise Credentials via QR Codes',
+      date: '2026-07-12',
+      excerpt: 'Security analysts warned of a massive phishing increase using QR codes (Quishing) that bypass common spam filters.',
+      url: 'https://www.cisa.gov/news-events/cybersecurity-advisories'
+    },
+    {
+      title: 'Critical Vulnerability Patched in Enterprise VPN Gateways',
+      date: '2026-07-09',
+      excerpt: 'Organizations are urged to apply patches to resolve an unauthenticated remote code execution vulnerability immediately.',
+      url: 'https://www.cisa.gov/news-events/cybersecurity-advisories'
+    }
+  ],
+  ar: [
+    {
+      title: 'وكالة CISA تصدر أفضل ممارسات الأمن السيبراني للمدن الذكية',
+      date: '2026-07-14',
+      excerpt: 'نشرت وكالة CISA إرشادات تحث على دمج هيكلية الثقة الصفرية Zero-Trust في شبكات التحكم بالبنية التحتية الذكية.',
+      url: 'https://www.cisa.gov/news-events/cybersecurity-advisories'
+    },
+    {
+      title: 'حملة تصيد نشطة تستهدف بيانات دخول الشركات عبر الرموز التعبيرية QR',
+      date: '2026-07-12',
+      excerpt: 'حذر محللو الأمن من زيادة هجمات التصيد باستخدام رموز الاستجابة السريعة (Quishing) لتجاوز فلاتر البريد المزعج.',
+      url: 'https://www.cisa.gov/news-events/cybersecurity-advisories'
+    },
+    {
+      title: 'إصلاح ثغرة أمنية حرجة في بوابات شبكات VPN للمؤسسات',
+      date: '2026-07-09',
+      excerpt: 'تم حث المؤسسات على تطبيق التحديثات الفورية لحل ثغرة تنفيذ الأكواد عن بعد غير المصرح بها.',
+      url: 'https://www.cisa.gov/news-events/cybersecurity-advisories'
+    }
+  ]
+};
+
+function renderFallbackNews() {
+  const container = document.getElementById('news-container');
+  const list = fallbackNews[currentLang] || fallbackNews.en;
+  const label = tkI18n[currentLang].news_fallback_lbl;
+  
+  document.getElementById('news-live-lbl').textContent = label;
+  
+  container.innerHTML = list.map(item => `
+    <div class="news-card">
+      <h3 class="news-title"><a href="${item.url}" target="_blank">${item.title}</a></h3>
+      <p class="news-excerpt">${item.excerpt}</p>
+      <div class="news-footer">
+        <span class="news-source">⚠️ CyberShield Alert</span>
+        <span>📅 ${item.date}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function fetchLiveSecurityNews() {
+  const container = document.getElementById('news-container');
+  const rssUrl = 'https://www.cisa.gov/cybersecurity-advisories.xml';
+  const api = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+  fetch(api)
+    .then(res => {
+      if (!res.ok) throw new Error('Network error fetching feed');
+      return res.json();
+    })
+    .then(data => {
+      if (data.status === 'ok' && data.items && data.items.length > 0) {
+        container.innerHTML = '';
+        const limitItems = data.items.slice(0, 5);
+        limitItems.forEach(item => {
+          // Format date
+          const date = new Date(item.pubDate).toISOString().split('T')[0];
+          // Strip HTML tags for preview
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = item.description || item.content;
+          const cleanDesc = tempDiv.textContent.substring(0, 200) + '...';
+          
+          const newsCard = document.createElement('div');
+          newsCard.className = 'news-card';
+          newsCard.innerHTML = `
+            <h3 class="news-title"><a href="${item.link}" target="_blank">${item.title}</a></h3>
+            <p class="news-excerpt">${cleanDesc}</p>
+            <div class="news-footer">
+              <span class="news-source">🔴 CISA Alert</span>
+              <span>📅 ${date}</span>
+            </div>
+          `;
+          container.appendChild(newsCard);
+        });
+      } else {
+        renderFallbackNews();
+      }
+    })
+    .catch(() => {
+      // Fallback
+      renderFallbackNews();
+    });
+}
+
+
+/* -----------------------------------------
+   PAGE INITIALIZATION
+   ----------------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+  const lang = localStorage.getItem('lang') || 'en';
+  applyToolkitLang(lang);
+  toggleCryptoControls();
+  fetchLiveSecurityNews();
+});
+</script>
+</body>
+</html>

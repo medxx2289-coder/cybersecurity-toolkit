@@ -1,0 +1,660 @@
+/* Cybersecurity Toolkit Stylesheet */
+
+.toolkit-container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+/* Sidebar Styling */
+.toolkit-sidebar {
+  background: rgba(10, 25, 20, 0.5);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem 1rem;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.toolkit-menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.toolkit-tab {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  color: var(--text-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+  font-family: var(--font-title);
+  font-size: 0.95rem;
+}
+
+.toolkit-tab:hover {
+  background: rgba(0, 255, 136, 0.05);
+  color: var(--primary);
+  border-color: rgba(0, 255, 136, 0.15);
+}
+
+.toolkit-tab.active {
+  background: rgba(0, 255, 136, 0.1);
+  color: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
+}
+
+.toolkit-tab-icon {
+  font-size: 1.2rem;
+}
+
+/* Content Window */
+.toolkit-content {
+  min-height: 500px;
+}
+
+.toolkit-panel {
+  display: none;
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.toolkit-panel.active {
+  display: block;
+}
+
+/* Panel Header */
+.panel-header {
+  border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.panel-title {
+  font-size: 1.75rem;
+  font-family: var(--font-title);
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.panel-title span {
+  color: var(--primary);
+}
+
+.panel-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+/* Dictionary Module */
+.dict-search-wrap {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.dict-search {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.dict-search:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
+}
+
+.dict-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.dict-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+}
+
+.dict-card:hover {
+  border-color: rgba(0, 255, 136, 0.25);
+  background: rgba(0, 255, 136, 0.02);
+  transform: translateY(-2px);
+}
+
+.dict-term-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dict-term-en {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.dict-term-ar {
+  font-size: 1.15rem;
+  color: #00bcd4;
+  font-weight: 700;
+}
+
+.dict-def {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Crypto Lab Module */
+.crypto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 992px) {
+  .crypto-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.crypto-control-group {
+  margin-bottom: 1.25rem;
+}
+
+.crypto-textarea {
+  width: 100%;
+  height: 120px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  resize: none;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.crypto-textarea:focus {
+  border-color: var(--primary);
+}
+
+.crypto-select {
+  width: 100%;
+  background: rgba(10, 25, 20, 0.9);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  outline: none;
+  cursor: pointer;
+}
+
+.crypto-select:focus {
+  border-color: var(--primary);
+}
+
+/* Quiz Module */
+.quiz-card {
+  background: rgba(10, 25, 20, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2.5rem;
+}
+
+.quiz-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--primary);
+  width: 0%;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 10px var(--primary);
+}
+
+.quiz-question {
+  font-size: 1.25rem;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.quiz-option {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.15rem 1.5rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+body[dir="rtl"] .quiz-option {
+  text-align: right;
+}
+
+.quiz-option:hover {
+  background: rgba(0, 255, 136, 0.05);
+  border-color: rgba(0, 255, 136, 0.3);
+  color: #fff;
+}
+
+.quiz-option.correct {
+  background: rgba(0, 255, 136, 0.12) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+}
+
+.quiz-option.incorrect {
+  background: rgba(255, 68, 68, 0.12) !important;
+  border-color: #ff4444 !important;
+  color: #ff4444 !important;
+}
+
+.quiz-feedback {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  display: none;
+  animation: fadeIn 0.3s ease-out;
+  line-height: 1.6;
+}
+
+.quiz-feedback.show-correct {
+  display: block;
+  background: rgba(0, 255, 136, 0.06);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  color: var(--primary);
+}
+
+.quiz-feedback.show-incorrect {
+  display: block;
+  background: rgba(255, 68, 68, 0.06);
+  border: 1px solid rgba(255, 68, 68, 0.2);
+  color: #ff4444;
+}
+
+.quiz-results {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.quiz-score-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 4px solid var(--primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 2rem;
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.2);
+}
+
+.quiz-score-num {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.quiz-score-lbl {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Learning Library */
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.book-card {
+  background: rgba(10, 25, 20, 0.4);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(0, 255, 136, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 255, 136, 0.05);
+}
+
+.book-cover-placeholder {
+  height: 140px;
+  background: linear-gradient(135deg, #0d1f1a 0%, #153c30 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  position: relative;
+}
+
+.book-tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  color: var(--primary);
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+body[dir="rtl"] .book-tag {
+  right: auto;
+  left: 10px;
+}
+
+.book-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.book-title {
+  font-size: 1rem;
+  color: #fff;
+  font-family: var(--font-title);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.book-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.book-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 0.75rem;
+  margin-top: auto;
+}
+
+/* News Feed Module */
+.news-pulse-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.news-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #ff4444;
+  border-radius: 50%;
+  animation: pulseNews 1.5s infinite;
+  box-shadow: 0 0 8px #ff4444;
+}
+
+.news-pulse-text {
+  font-size: 0.85rem;
+  color: #ff4444;
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.news-card {
+  background: rgba(10, 25, 20, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+}
+
+.news-card:hover {
+  border-color: rgba(255, 68, 68, 0.25);
+  background: rgba(255, 68, 68, 0.01);
+}
+
+.news-title {
+  font-size: 1.15rem;
+  color: #fff;
+  font-family: var(--font-title);
+  margin-bottom: 0.75rem;
+}
+
+.news-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.news-title a:hover {
+  color: #ff4444;
+}
+
+.news-excerpt {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.news-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 0.75rem;
+}
+
+.news-source {
+  color: #00bcd4;
+  font-weight: 600;
+}
+
+/* Network Lab Subnet & Ports */
+.net-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.net-ip-badge {
+  background: rgba(0, 188, 212, 0.08);
+  border: 1px solid rgba(0, 188, 212, 0.2);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.net-ip-value {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  color: #00bcd4;
+  font-weight: bold;
+}
+
+.subnet-form {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 576px) {
+  .subnet-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+.subnet-result-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+.subnet-result-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.subnet-result-table tr:last-child td {
+  border-bottom: none;
+}
+
+.subnet-result-lbl {
+  color: var(--text-muted);
+  width: 40%;
+}
+
+.subnet-result-val {
+  color: var(--primary);
+  text-align: right;
+}
+
+body[dir="rtl"] .subnet-result-val {
+  text-align: left;
+}
+
+/* Port Scanner Simulator */
+.port-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.port-card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.port-number {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+.port-service {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0.25rem 0 0.5rem;
+}
+
+.port-status-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.port-status-closed {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+}
+
+.port-status-open {
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--primary);
+}
+
+.port-status-filter {
+  background: rgba(255, 170, 0, 0.15);
+  color: #ffaa00;
+}
+
+/* Keyframes */
+@keyframes pulseNews {
+  0% { transform: scale(0.95); opacity: 0.5; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.5; }
+}
+
+/* Responsive Grid overrides */
+@media (max-width: 992px) {
+  .toolkit-container {
+    grid-template-columns: 1fr;
+  }
+  .toolkit-sidebar {
+    position: static;
+    top: 0;
+  }
+  .toolkit-menu {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  .toolkit-tab {
+    white-space: nowrap;
+    padding: 0.75rem 1rem;
+  }
+}
